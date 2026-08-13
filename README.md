@@ -1,4 +1,16 @@
-# mutant-db
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.svg">
+    <img alt="genomedb" src="docs/logo-light.svg" width="440">
+  </picture>
+</p>
+
+<p align="center">
+  <a href="go.mod"><img alt="Go" src="https://img.shields.io/badge/Go-1.26-00ADD8?style=flat-square&logo=go&logoColor=white"></a>
+  <img alt="Piattaforme" src="https://img.shields.io/badge/piattaforme-macOS%20%7C%20Linux%20%7C%20Windows-375E51?style=flat-square">
+  <img alt="Stato" src="https://img.shields.io/badge/stato-prototipo-B5652B?style=flat-square">
+  <img alt="Design" src="https://img.shields.io/badge/design-zero--knowledge-3F8067?style=flat-square">
+</p>
 
 Prototipo funzionante del "Protocollo di Mutazione Dinamica": un database
 distribuito organico dove l'orchestratore non vede mai dati o chiavi, i
@@ -67,11 +79,11 @@ raggiungibili — non solo tolleranza ai guasti, ma *proactive secret
 sharing*: le quote vecchie eventualmente già esfiltrate da un nodo perso
 diventano permanentemente inutilizzabili, non solo irraggiungibili.
 
-Nota onesta emersa testando: il backup di un file che appartiene allo stesso
-database in cui viene poi registrato il manifest è per natura uno snapshot
-"pre-scrittura" — il file ripristinato non conterrà la riga di manifest
-scritta *dopo* lo snapshot (comportamento atteso di qualunque backup su un
-database live, non un difetto).
+> [!NOTE]
+> Il backup di un file che appartiene allo stesso database in cui viene poi
+> registrato il manifest è per natura uno snapshot "pre-scrittura" — il file
+> ripristinato non conterrà la riga di manifest scritta *dopo* lo snapshot.
+> Comportamento atteso di qualunque backup su un database live, non un difetto.
 
 ## Proactive secret sharing anche per i "secret" normali
 
@@ -102,20 +114,28 @@ Altri due indurimenti aggiunti nello stesso giro:
 
 ## Cosa è reale e cosa è un placeholder dichiarato
 
-| Componente | Stato |
-|---|---|
-| Shamir secret sharing (GF(256)) | reale, con test |
-| Ratchet HKDF (seed server + entropia locale) | reale, con test |
-| Hash-chain S/KEY per mutazione offline | reale, verificata dall'orchestratore a posteriori |
-| AES-256-GCM su ogni frammento | reale |
-| Store locale (SQLite pure-Go + AEAD applicativo) | reale; sostituisce SQLCipher per evitare CGO/OpenSSL — vedi `store/store.go` |
-| Rilevamento debugger (macOS/Linux) | reale (sysctl P_TRACED / TracerPid) |
-| Rilevamento sessione RDP (Windows) | reale (WTSQuerySessionInformation) — scritto e verificato in cross-compilazione, non eseguibile su questo Mac |
-| Rilevamento sessione remota (macOS/Linux) | reale ma minimale (env SSH_*) |
-| Sigillo della chiave radice (TPM/Secure Enclave) | **placeholder dichiarato** — file scrypt-wrapped su disco, vedi `crypto/seal.go` |
-| Overlay P2P / DHT | **semplificato** — indirizzi nodo fissi scoperti via orchestratore, non Kademlia |
-| Chiavi WireGuard (keygen Curve25519 + rendering config) | reale, con test — la gestione del tunnel/interfaccia resta a `wg-quick`, non a questo programma |
-| Backup off-site + auto-guarigione (proactive secret sharing) | reale, testato con guasto simulato di un host e ridistribuzione automatica |
+🟢 reale e testato · 🟡 reale ma semplificato · 🔴 placeholder dichiarato
+
+| | Componente | Stato |
+|---|---|---|
+| 🟢 | Shamir secret sharing (GF(256)) | con test |
+| 🟢 | Ratchet HKDF (seed server + entropia locale) | con test |
+| 🟢 | Hash-chain S/KEY per mutazione offline | verificata dall'orchestratore a posteriori |
+| 🟢 | AES-256-GCM su ogni frammento | — |
+| 🟢 | Store locale (SQLite pure-Go + AEAD applicativo) | sostituisce SQLCipher per evitare CGO/OpenSSL — vedi `store/store.go` |
+| 🟢 | Rilevamento debugger (macOS/Linux) | sysctl P_TRACED / TracerPid |
+| 🟢 | Rilevamento sessione RDP (Windows) | WTSQuerySessionInformation — scritto e verificato in cross-compilazione, non eseguibile su questo Mac |
+| 🟡 | Rilevamento sessione remota (macOS/Linux) | minimale, solo env `SSH_*` |
+| 🔴 | Sigillo della chiave radice (TPM/Secure Enclave) | file scrypt-wrapped su disco, vedi `crypto/seal.go` |
+| 🟡 | Overlay P2P / DHT | indirizzi nodo fissi scoperti via orchestratore, non Kademlia |
+| 🟢 | Chiavi WireGuard (keygen Curve25519 + rendering config) | con test — la gestione del tunnel resta a `wg-quick` |
+| 🟢 | Backup off-site + auto-guarigione (proactive secret sharing) | testato con guasto simulato di un host |
+
+> [!IMPORTANT]
+> Il sigillo della chiave radice è l'unico gap di sicurezza serio rimasto:
+> senza un vero TPM/Secure Enclave, la promessa "chiavi ancorate
+> all'hardware" non è ancora mantenuta. Prima di usarlo con dati reali
+> ultra-sensibili, va sostituito — vedi `crypto/seal.go`.
 
 ## Struttura
 

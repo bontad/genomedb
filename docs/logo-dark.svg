@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" width="640" height="160" role="img" aria-labelledby="title desc">
+  <title id="title">genomedb</title>
+  <desc id="desc">Tre frammenti esagonali, uno tratteggiato in mutazione, accanto al nome del progetto</desc>
+  <g transform="translate(4,4)">
+    <polygon points="58,30 85.7,46 85.7,78 58,94 30.3,78 30.3,46" fill="#74B79C"/>
+    <polygon points="100,64 127.7,80 127.7,112 100,128 72.3,112 72.3,80" fill="#3F8067"/>
+    <polygon points="85.7,53.9 104.1,72.3 97.4,97.4 72.3,104.1 53.9,85.7 60.6,60.6"
+      fill="none" stroke="#E7ECE6" stroke-width="2.5" stroke-dasharray="4 4"/>
+  </g>
+  <text x="190" y="93" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    font-size="52" font-weight="700" fill="#E7ECE6" letter-spacing="-1">genomedb</text>
+  <text x="191" y="122" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    font-size="14.5" font-weight="500" fill="#A9B8AC" letter-spacing="2.5">PROTOCOLLO DI MUTAZIONE DINAMICA</text>
+</svg>
