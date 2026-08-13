@@ -10,6 +10,7 @@
   <img alt="Piattaforme" src="https://img.shields.io/badge/piattaforme-macOS%20%7C%20Linux%20%7C%20Windows-375E51?style=flat-square">
   <img alt="Stato" src="https://img.shields.io/badge/stato-prototipo-B5652B?style=flat-square">
   <img alt="Design" src="https://img.shields.io/badge/design-zero--knowledge-3F8067?style=flat-square">
+  <a href="LICENSE"><img alt="Licenza" src="https://img.shields.io/badge/licenza-PolyForm%20Noncommercial%201.0.0-6B4C9A?style=flat-square"></a>
 </p>
 
 Prototipo funzionante del "Protocollo di Mutazione Dinamica": un database
@@ -136,6 +137,15 @@ Altri due indurimenti aggiunti nello stesso giro:
 > senza un vero TPM/Secure Enclave, la promessa "chiavi ancorate
 > all'hardware" non è ancora mantenuta. Prima di usarlo con dati reali
 > ultra-sensibili, va sostituito — vedi `crypto/seal.go`.
+
+## Licenza
+
+Uso gratuito per scopi non commerciali sotto [PolyForm Noncommercial
+1.0.0](LICENSE) — ricerca, studio personale, progetti hobbistici,
+organizzazioni no-profit/educative sono tutti usi permessi senza
+restrizioni. Per un uso commerciale (integrazione in un prodotto, servizio
+a pagamento, uso aziendale interno) serve una licenza commerciale separata:
+scrivi a **paolomelogranibrk@gmail.com**.
 
 ## Struttura
 
